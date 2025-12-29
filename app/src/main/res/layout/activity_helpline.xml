@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:fitsSystemWindows="true"
+    tools:context=".Helpline">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_women_distress"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="175dp"
+            android:backgroundTint="@color/white"
+            android:padding="18dp"
+            android:text="Women in Distress"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:onClick="callWomenDistress" />
+
+        <Button
+            android:id="@+id/btn_domestic_abuse"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/white"
+            android:padding="18dp"
+            android:text="Domestic Abuse"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:onClick="callDomesticAbuse" />
+
+        <Button
+            android:id="@+id/btn_police"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/white"
+            android:padding="18dp"
+            android:text="Police"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:onClick="callPolice" />
+
+        <Button
+            android:id="@+id/btn_student_helpline"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/white"
+            android:padding="18dp"
+            android:text="Student Helpline"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:onClick="callStudentHelpline" />
+
+        <Button
+            android:id="@+id/btn_ambulance"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/white"
+            android:padding="18dp"
+            android:text="Ambulance"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:onClick="callAmbulance" />
+    </LinearLayout>
+
+</RelativeLayout>

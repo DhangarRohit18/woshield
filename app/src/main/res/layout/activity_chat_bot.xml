@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/bg">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/black"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/chatOutput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bot: Hello! How can I help you?"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/userInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type a message..."
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:layout_marginBottom="20dp"/>
+</LinearLayout>
