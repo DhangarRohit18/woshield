@@ -50,7 +50,20 @@ public class Nearby_Safe extends AppCompatActivity implements OnMapReadyCallback
         btnFindSafePlaces = findViewById(R.id.btnFindSafePlaces);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        Places.initialize(getApplicationContext(), "YOUR_API_KEY_HERE");
+        
+        // Initialize Places with the API key from Manifest
+        try {
+            Bundle metaData = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA).metaData;
+            String apiKey = metaData.getString("com.google.android.geo.API_KEY");
+            if (apiKey != null && !apiKey.isEmpty()) {
+                Places.initialize(getApplicationContext(), apiKey);
+            } else {
+                Log.e(TAG, "API Key not found in Manifest");
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
+        }
+
         placesClient = Places.createClient(this);
 
         Bundle mapViewBundle = savedInstanceState != null ? savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY) : null;

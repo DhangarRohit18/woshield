@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "255851440391",
-    "project_id": "woshield-cd89a",
-    "storage_bucket": "woshield-cd89a.firebasestorage.app"
+    "project_number": "437436107746",
+    "project_id": "woshield-bc86f",
+    "storage_bucket": "woshield-bc86f.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:255851440391:android:0494d2bd0bf10874a43da2",
+        "mobilesdk_app_id": "1:437436107746:android:7943555b90e93e7b66c7bb",
         "android_client_info": {
           "package_name": "com.example.woshield"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBIp6nLdKbZ5vjU4Tt6qXoQDK245Fk55C4"
+          "current_key": "AIzaSyCQYdcZRKw8U9tTaIwWFkmIJWC6sRdGYAM"
         }
       ],
       "services": {

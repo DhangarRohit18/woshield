@@ -2,4 +2,7 @@
     <string name="app_name">EmpowHer</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="buzzle_option">Buzzle Option</string>
+    <string name="facebook_app_id">YOUR_FACEBOOK_APP_ID</string>
+    <string name="facebook_client_token">YOUR_FACEBOOK_CLIENT_TOKEN</string>
+    <string name="btn_check_danger_zone">Check Danger Zone</string>
 </resources>

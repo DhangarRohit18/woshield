@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,445 +7,496 @@
     android:background="@drawable/bg"
     tools:context=".HomePage">
 
-    <View
-        android:id="@+id/topView"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/bg_view" />
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-    <ImageView
-        android:id="@+id/img_buzzle"
-        android:layout_width="152dp"
-        android:layout_height="141dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/logo"
-        android:onClick="goToBuzzer" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/topView"
-        android:layout_marginTop="-41dp"
-        android:fillViewport="true">
-
-        <GridLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginLeft="30dp">
+            android:padding="24dp">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome to"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="18sp" />
 
-                <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="EMPOWHER"
+                    android:textColor="@color/white"
+                    android:textSize="32sp"
+                    android:letterSpacing="0.05"/>
+            </LinearLayout>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_background_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="Voice Shield"
+                android:textColor="@color/white"
+                android:checked="true"/>
+
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- SOS Main Button -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_Emergency_send"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="12dp"
+                app:cardBackgroundColor="#FF5252">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:padding="20dp">
 
                     <ImageView
-                        android:id="@+id/btn_security_suggestions"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/how_to_use" />
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/emergency"
+                        app:tint="@color/white" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Guidelines"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="end"
+                        android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EMERGENCY SOS"
+                            android:textColor="@color/white"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <TextView
+                            android:id="@+id/tv_sos_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hold for 2s to record"
+                            android:textColor="#E0FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                    <ImageView
-                        android:id="@+id/btn_important_contacts"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/contact_icon" />
+            <!-- Grid Layout for Features -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alignmentMode="alignMargins"
+                android:columnCount="2">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="imp contacts"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Buzzer / Alarm -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_buzzer"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/fake_siren" />
 
-                    <ImageView
-                        android:id="@+id/btn_chatbot"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/chat_icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Buzzer Alarm"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Chatbot"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Security Suggestions -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_security_suggestions"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/security_icon" />
 
-                    <ImageView
-                        android:id="@+id/btn_maps"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/map_icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Security Tips"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Danger Zone"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Chatbot -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_chatbot"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/chat_icon" />
 
-                    <ImageView
-                        android:id="@+id/fakecall"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:onClick="goToFakeCall"
-                        android:src="@drawable/fake_siren" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="EmpowBot"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Fake siren"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Maps/Danger Zone -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_maps"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/map_icon" />
 
-                    <ImageView
-                        android:id="@+id/btn_Emergency_send"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/emergency" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Danger Zone"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Emergency"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Helpline -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/helpline"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/helpline" />
 
-                    <ImageView
-                        android:id="@+id/helpline"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/helpline" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Helpline"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Helpline"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Profile -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/profile_icon" />
 
-                    <ImageView
-                        android:id="@+id/action_emergency_contact"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/add_contacts" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Profile"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Add Contacts"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Nearby Safe Places -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_nearby_safe"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/nearby_safe" />
 
-                    <ImageView
-                        android:id="@+id/action_profile"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/user" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Safe Places"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="User Profile"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Fake Call -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_fake_call"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/baseline_call_24" />
 
-                    <ImageView
-                        android:id="@+id/action_logout"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/logout" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Fake Call"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Log out"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Voice Help -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_voice_help"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/voice" />
 
-                    <ImageView
-                        android:id="@+id/SafeZone"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/safe_zone" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Voice Help"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Safe Zones"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                <!-- Add Contacts -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_add_contacts"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="14dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/add_contacts" />
 
-                    <ImageView
-                        android:id="@+id/voiceMsg"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/voice" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Emergency Contacts"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="voice Msg"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </GridLayout>
-    </ScrollView>
-</RelativeLayout>
+                <!-- Logout -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_logout"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#CCFFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/logout_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Logout"
+                            android:textColor="#333"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </GridLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

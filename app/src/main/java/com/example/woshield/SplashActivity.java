@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
 
             public void run() {
-                final Intent mainIntent = new Intent(SplashActivity.this, SignupActivity.class);
+                final Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
                 SplashActivity.this.startActivity(mainIntent);
                 overridePendingTransition(R.anim.fade_in, 0);
                 SplashActivity.this.finish();

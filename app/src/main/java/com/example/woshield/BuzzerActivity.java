@@ -1,20 +1,22 @@
 package com.example.woshield;
 
 import android.Manifest;
-import android.app.PendingIntent;
-import android.content.DialogInterface;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.text.InputType;
 import android.util.Log;
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,112 +27,180 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class BuzzerActivity extends AppCompatActivity {
     private static final int LOCATION_REQUEST_CODE = 102;
     private static final int SMS_REQUEST_CODE = 103;
 
     private FusedLocationProviderClient fusedLocationClient;
-    private String emergencyNumber = "+919975819201";  // Default fallback
+    private List<String> emergencyNumbers;
     private Handler handler = new Handler();
     private Runnable alertRunnable;
-    private boolean isAlertScheduled = false;  // Track if an alert is scheduled
+    private boolean isAlertScheduled = false;
 
-    private Button buzzerButton;
+    private ExtendedFloatingActionButton sosButton;
+    private View pulseView;
+    private TextView tvStatus, tvCountdown, tvEmergencyNumber;
+    private ObjectAnimator pulseAnimator;
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
+        setContentView(R.layout.activity_buzzer);
 
-        // Initialize location services
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        emergencyNumbers = new ArrayList<>();
+        loadEmergencyContacts();
 
-        // Load the emergency contact
-        loadEmergencyContact();
+        sosButton = findViewById(R.id.btn_sos);
+        pulseView = findViewById(R.id.pulseView);
+        tvStatus = findViewById(R.id.tv_status);
+        tvCountdown = findViewById(R.id.tv_countdown);
+        tvEmergencyNumber = findViewById(R.id.tv_emergency_number);
 
-        // Find UI components
-        buzzerButton = findViewById(R.id.shareButton);
+        updateContactsDisplay();
 
-        // Set click listener for buzzer button
-        buzzerButton.setOnClickListener(v -> {
+        sosButton.setOnClickListener(v -> {
             if (isAlertScheduled) {
                 cancelEmergencyAlert();
             } else {
-                promptDelayTime();
+                if (emergencyNumbers.isEmpty()) {
+                    Toast.makeText(this, "Please add emergency contacts first!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(this, EmergencyContactActivity.class));
+                } else {
+                    promptDelayTime();
+                }
             }
         });
+        
+        startIdlePulse();
     }
 
-    // Load the emergency contact from SharedPreferences
-    private void loadEmergencyContact() {
+    private void loadEmergencyContacts() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        emergencyNumber = prefs.getString("emergency_contact", "+919975819201" +
-                "");
+        String contactsJson = prefs.getString("emergency_contacts", "[]");
+        try {
+            JSONArray array = new JSONArray(contactsJson);
+            emergencyNumbers.clear();
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                emergencyNumbers.add(obj.getString("number"));
+            }
+        } catch (JSONException e) {
+            Log.e("Buzzer", "Error loading contacts", e);
+        }
     }
 
-    // Prompt the user to enter delay time
-    private void promptDelayTime() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(BuzzerActivity.this);
-        builder.setTitle("Set Delay Time (Minutes)");
+    private void updateContactsDisplay() {
+        if (emergencyNumbers.isEmpty()) {
+            tvEmergencyNumber.setText("No Contacts Added");
+        } else {
+            tvEmergencyNumber.setText(emergencyNumbers.size() + " Contacts Secured");
+        }
+    }
 
-        final EditText input = new EditText(BuzzerActivity.this);
+    private void promptDelayTime() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Safety Delay");
+        builder.setMessage("Set countdown for emergency alert (minutes):");
+
+        final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setText("1");
         builder.setView(input);
 
-        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String delayStr = input.getText().toString();
-                if (!delayStr.isEmpty()) {
-                    int delayMinutes = Integer.parseInt(delayStr);
-                    scheduleAlert(delayMinutes * 60000);
-                    Toast.makeText(BuzzerActivity.this,
-                            "Alert will be sent in " + delayMinutes + " minutes", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(BuzzerActivity.this,
-                            "Please enter a valid delay time", Toast.LENGTH_SHORT).show();
-                }
+        builder.setPositiveButton("Set Timer", (dialog, which) -> {
+            String delayStr = input.getText().toString();
+            if (!delayStr.isEmpty()) {
+                int delayMinutes = Integer.parseInt(delayStr);
+                scheduleAlert(delayMinutes * 60000L);
             }
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();
     }
 
-    // Schedule the emergency alert
     private void scheduleAlert(long delayMillis) {
         isAlertScheduled = true;
-        buzzerButton.setText("Cancel Alert");
+        sosButton.setText("CANCEL");
+        tvStatus.setText("ALERT SCHEDULED");
+        startActivePulse();
 
-        alertRunnable = new Runnable() {
-            @Override
-            public void run() {
-                triggerEmergencyAlert();
-            }
-        };
-
+        alertRunnable = this::triggerEmergencyAlert;
         handler.postDelayed(alertRunnable, delayMillis);
+
+        if (countDownTimer != null) countDownTimer.cancel();
+        countDownTimer = new CountDownTimer(delayMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int minutes = (int) (millisUntilFinished / 1000) / 60;
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+                tvCountdown.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                tvCountdown.setText("00:00");
+            }
+        }.start();
     }
 
-    // Cancel the scheduled emergency alert
     private void cancelEmergencyAlert() {
         handler.removeCallbacks(alertRunnable);
+        if (countDownTimer != null) countDownTimer.cancel();
         isAlertScheduled = false;
-        buzzerButton.setText("Press Buzzer");
-        Toast.makeText(this, "Emergency alert canceled", Toast.LENGTH_SHORT).show();
+        sosButton.setText("SOS");
+        tvStatus.setText("READY TO PROTECT");
+        tvCountdown.setText("");
+        startIdlePulse();
+        Toast.makeText(this, "Alert canceled", Toast.LENGTH_SHORT).show();
     }
 
-    // Trigger the emergency alert when time is up
     public void triggerEmergencyAlert() {
         isAlertScheduled = false;
-        buzzerButton.setText("Press Buzzer");
-
-        // Get location and send emergency alert
+        sosButton.setText("SOS");
+        tvStatus.setText("ALERTS DISPATCHED");
+        tvCountdown.setText("");
+        startIdlePulse();
         getLastLocationAndSendAlert();
     }
 
-    // Get user's last known location and send an emergency message
+    private void startIdlePulse() {
+        if (pulseAnimator != null) pulseAnimator.cancel();
+        pulseAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                pulseView,
+                PropertyValuesHolder.ofFloat("scaleX", 1.0f, 1.2f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.0f, 1.2f),
+                PropertyValuesHolder.ofFloat("alpha", 0.5f, 0.0f)
+        );
+        pulseAnimator.setDuration(2000);
+        pulseAnimator.setRepeatCount(ObjectAnimator.INFINITE);
+        pulseAnimator.start();
+    }
+
+    private void startActivePulse() {
+        if (pulseAnimator != null) pulseAnimator.cancel();
+        pulseAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                pulseView,
+                PropertyValuesHolder.ofFloat("scaleX", 1.0f, 1.5f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.0f, 1.5f),
+                PropertyValuesHolder.ofFloat("alpha", 0.8f, 0.0f)
+        );
+        pulseAnimator.setDuration(800);
+        pulseAnimator.setRepeatCount(ObjectAnimator.INFINITE);
+        pulseAnimator.start();
+    }
+
     private void getLastLocationAndSendAlert() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -140,59 +210,36 @@ public class BuzzerActivity extends AppCompatActivity {
             return;
         }
 
-        fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    String message = "EMERGENCY ALERT!\nI am in danger. My location: " +
-                            "https://maps.google.com/?q=" + location.getLatitude() + "," + location.getLongitude();
-                    sendEmergencyMessage(emergencyNumber, message);
-                } else {
-                    Toast.makeText(BuzzerActivity.this, "Failed to get location", Toast.LENGTH_SHORT).show();
+        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                String locUrl = "https://maps.google.com/?q=" + location.getLatitude() + "," + location.getLongitude();
+                String message = "EMERGENCY ALERT!\nI am in danger. My real-time location: " + locUrl;
+                
+                for (String number : emergencyNumbers) {
+                    sendSms(number, message);
                 }
+                Toast.makeText(this, "Emergency alerts sent to " + emergencyNumbers.size() + " contacts.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Failed to get precise location", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // Send an emergency SMS
-    private void sendEmergencyMessage(String number, String message) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.SEND_SMS},
-                    SMS_REQUEST_CODE);
-        } else {
-            try {
-                SmsManager smsManager = SmsManager.getDefault();
-                PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0,
-                        new Intent("SMS_SENT"),
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-                smsManager.sendTextMessage(number, null, message, sentIntent, null);
-                Toast.makeText(this, "Emergency message sent!", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                Log.e("BuzzerActivity", "Failed to send message", e);
-                Toast.makeText(this, "Failed to send message", Toast.LENGTH_SHORT).show();
-            }
+    private void sendSms(String number, String message) {
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(number, null, message, null, null);
+        } catch (Exception e) {
+            Log.e("Buzzer", "SMS failed to: " + number, e);
         }
     }
 
-    // Handle permission results
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastLocationAndSendAlert();
-            } else {
-                Toast.makeText(this, "Location permission denied!", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == SMS_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastLocationAndSendAlert();
-            } else {
-                Toast.makeText(this, "SMS permission denied!", Toast.LENGTH_SHORT).show();
-            }
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getLastLocationAndSendAlert();
         }
     }
 }

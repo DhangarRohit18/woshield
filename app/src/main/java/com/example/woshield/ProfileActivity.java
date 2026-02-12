@@ -7,64 +7,163 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final String TAG = "ProfileActivity";
+    
     private ImageView imgProfilePhoto;
     private Button btnChangePhoto, btnSaveProfile;
     private EditText etName, etMobileNumber;
-    private String generatedOtp; // Stores the simulated OTP
+    private Uri imageUri;
+    
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private StorageReference mStorage;
+    private String currentUserId;
+    private String generatedOtp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // Find views by ID
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+        
+        currentUserId = user.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(currentUserId);
+        mStorage = FirebaseStorage.getInstance().getReference("ProfilePictures").child(currentUserId + ".jpg");
+
         imgProfilePhoto = findViewById(R.id.img_profile_photo);
         btnChangePhoto = findViewById(R.id.btn_change_photo);
         btnSaveProfile = findViewById(R.id.btn_save_profile);
         etName = findViewById(R.id.et_name);
         etMobileNumber = findViewById(R.id.et_mobile_number);
 
-        // Change photo action: open gallery to pick a new profile image.
+        fetchUserProfile();
+
         btnChangePhoto.setOnClickListener(v -> openGallery());
+        btnSaveProfile.setOnClickListener(v -> validateAndVerify());
+    }
 
-        // Save profile and initiate mobile number verification.
-        btnSaveProfile.setOnClickListener(v -> {
-            String name = etName.getText().toString().trim();
-            String mobile = etMobileNumber.getText().toString().trim();
+    private void fetchUserProfile() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String name = snapshot.child("name").getValue(String.class);
+                    String mobile = snapshot.child("mobile").getValue(String.class);
+                    String photoUrl = snapshot.child("profilePhotoUrl").getValue(String.class);
 
-            if (name.isEmpty()) {
-                Toast.makeText(ProfileActivity.this, "Please enter your name", Toast.LENGTH_SHORT).show();
-                return;
+                    if (name != null) etName.setText(name);
+                    if (mobile != null) etMobileNumber.setText(mobile);
+                    if (photoUrl != null && !isDestroyed()) {
+                        Glide.with(ProfileActivity.this).load(photoUrl).placeholder(R.drawable.profile_icon).into(imgProfilePhoto);
+                    }
+                }
             }
-            // Validate mobile: must be exactly 10 digits.
-            if (!mobile.matches("\\d{10}")) {
-                Toast.makeText(ProfileActivity.this, "Please enter a valid 10-digit mobile number", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            // Simulate sending OTP (for demo, we generate a random 4-digit code).
-            generatedOtp = String.valueOf(1000 + new Random().nextInt(9000));
-            // In a production app, you would send this OTP via SMS.
-            Toast.makeText(ProfileActivity.this, "OTP sent: " + generatedOtp, Toast.LENGTH_LONG).show();
-            // Prompt the user to enter the OTP.
-            showOtpDialog();
+            @Override public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 
-    // Open the gallery for image selection.
+    private void validateAndVerify() {
+        String name = etName.getText().toString().trim();
+        String mobile = etMobileNumber.getText().toString().trim();
+
+        if (name.isEmpty() || !mobile.matches("\\d{10}")) {
+            Toast.makeText(this, "Valid name and 10-digit mobile required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        generatedOtp = String.valueOf(1000 + new Random().nextInt(9000));
+        Toast.makeText(this, "Verification OTP: " + generatedOtp, Toast.LENGTH_LONG).show();
+        showOtpDialog();
+    }
+
+    private void showOtpDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Verify Changes");
+        final EditText inputOtp = new EditText(this);
+        inputOtp.setHint("Enter OTP");
+        inputOtp.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(inputOtp);
+
+        builder.setPositiveButton("Verify", (dialog, which) -> {
+            if (inputOtp.getText().toString().trim().equals(generatedOtp)) {
+                saveProfileToFirebase();
+            } else {
+                Toast.makeText(this, "Incorrect OTP", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void saveProfileToFirebase() {
+        Toast.makeText(this, "Updating profile...", Toast.LENGTH_SHORT).show();
+        
+        if (imageUri != null) {
+            // Upload Image First
+            mStorage.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+                mStorage.getDownloadUrl().addOnSuccessListener(uri -> {
+                    updateDatabase(uri.toString());
+                });
+            }).addOnFailureListener(e -> {
+                Toast.makeText(ProfileActivity.this, "Photo upload failed", Toast.LENGTH_SHORT).show();
+                updateDatabase(null); // Fallback to update just text
+            });
+        } else {
+            updateDatabase(null);
+        }
+    }
+
+    private void updateDatabase(String photoUrl) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("name", etName.getText().toString().trim());
+        updates.put("mobile", etMobileNumber.getText().toString().trim());
+        if (photoUrl != null) updates.put("profilePhotoUrl", photoUrl);
+
+        mDatabase.updateChildren(updates).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(ProfileActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ProfileActivity.this, "Failed to update database", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
@@ -73,40 +172,12 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri imageUri = data.getData();
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 imgProfilePhoto.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
-            }
+            } catch (IOException e) { e.printStackTrace(); }
         }
-    }
-
-    // Display an OTP verification dialog.
-    private void showOtpDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
-        builder.setTitle("Mobile Verification");
-        final EditText inputOtp = new EditText(ProfileActivity.this);
-        inputOtp.setHint("Enter OTP");
-        inputOtp.setInputType(InputType.TYPE_CLASS_NUMBER);
-        builder.setView(inputOtp);
-
-        builder.setPositiveButton("Verify", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String enteredOtp = inputOtp.getText().toString().trim();
-                if (enteredOtp.equals(generatedOtp)) {
-                    Toast.makeText(ProfileActivity.this, "Mobile Verified and Profile Saved", Toast.LENGTH_SHORT).show();
-                    // TODO: Save the profile details to SharedPreferences or your backend.
-                } else {
-                    Toast.makeText(ProfileActivity.this, "Incorrect OTP. Verification failed.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        builder.setNegativeButton("Cancel", null);
-        builder.show();
     }
 }

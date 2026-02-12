@@ -1,26 +1,33 @@
 package com.example.woshield;
 
 public class Dataholder {
+
     private String email;
     private String description;
     private String feedback;
     private double latitude;
     private double longitude;
 
-    // Default constructor (required for Firebase)
+    // 🔐 Admin-related field
+    private String status;   // pending / approved / rejected
+
+    // ✅ Required empty constructor for Firebase
     public Dataholder() {
     }
 
-    // Constructor with parameters
-    public Dataholder(String email, String description, String feedback, double latitude, double longitude) {
+    // ✅ Constructor used by USER while submitting report
+    public Dataholder(String email, String description, String feedback,
+                      double latitude, double longitude) {
         this.email = email;
         this.description = description;
         this.feedback = feedback;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.status = "pending";   // default status
     }
 
-    // Getters and Setters
+    // ===== Getters & Setters =====
+
     public String getEmail() {
         return email;
     }
@@ -59,5 +66,14 @@ public class Dataholder {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    // 🔐 Admin approval status
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

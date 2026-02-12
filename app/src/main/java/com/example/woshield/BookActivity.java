@@ -35,7 +35,6 @@ public class BookActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedback2);
 
-        // Initialize UI components
         etEmail = findViewById(R.id.et3);
         etDescription = findViewById(R.id.et4);
         etFeedback = findViewById(R.id.et6);
