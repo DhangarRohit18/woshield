@@ -231,6 +231,20 @@ public class HomePage extends AppCompatActivity {
             tvManageCircle.setOnClickListener(v -> startActivity(new Intent(this, EmergencyContactActivity.class)));
         }
 
+        // Daily Routine & Safe Stops
+        View btnDailyRoutine = findViewById(R.id.btn_daily_routine);
+        if (btnDailyRoutine != null) {
+            btnDailyRoutine.setOnClickListener(v -> startActivity(new Intent(this, RoutineActivity.class)));
+        }
+        View btnHomeOpenRoutines = findViewById(R.id.btn_home_open_routines);
+        if (btnHomeOpenRoutines != null) {
+            btnHomeOpenRoutines.setOnClickListener(v -> startActivity(new Intent(this, RoutineActivity.class)));
+        }
+        View btnHomeOpenSafeStops = findViewById(R.id.btn_home_open_safe_stops);
+        if (btnHomeOpenSafeStops != null) {
+            btnHomeOpenSafeStops.setOnClickListener(v -> startActivity(new Intent(this, SafeStopsActivity.class)));
+        }
+
         // Primary Feature Cards
         findViewById(R.id.btn_security_suggestions).setOnClickListener(v -> startActivity(new Intent(this, SecuritySuggestionsActivity.class)));
         findViewById(R.id.btn_maps).setOnClickListener(v -> startActivity(new Intent(this, MapsActivity.class)));

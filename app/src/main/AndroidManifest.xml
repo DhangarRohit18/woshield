@@ -81,6 +81,15 @@
             android:name=".WalkWithMeActivity"
             android:exported="false" />
         <activity
+            android:name=".RoutineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RoutineFormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SafeStopsActivity"
+            android:exported="false" />
+        <activity
             android:name=".EmergencyContactActivity"
             android:exported="false" />
         <activity
@@ -152,6 +161,10 @@
         <receiver
             android:name=".GeofenceBroadcastReceiver"
             android:exported="true" />
+
+        <receiver
+            android:name=".RoutineReminderReceiver"
+            android:exported="false" />
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=

@@ -380,6 +380,112 @@
             </com.google.android.material.card.MaterialCardView>
 
             <!-- ========================================================= -->
+            <!-- FEATURE: DAILY ROUTINE & SAFE STOPS BANNER CARD           -->
+            <!-- ========================================================= -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_daily_routine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/woshield_card_bg"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/card_stroke"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:contentDescription="Daily Routine"
+                            android:src="@drawable/ic_routine"
+                            app:tint="@color/deep_purple" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Daily Routine &amp; Safe Stops"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="sans-serif"
+                                android:text="Scheduled commutes, safe havens &amp; reminders"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="Open Routine"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/deep_purple" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="@color/subtle_border" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/btn_home_open_routines"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:minHeight="44dp"
+                            android:gravity="center_vertical"
+                            android:text="View Routines →"
+                            android:textColor="@color/deep_purple"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/btn_home_open_safe_stops"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:minHeight="44dp"
+                            android:gravity="center_vertical"
+                            android:text="Safe Stops →"
+                            android:textColor="@color/status_safe"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ========================================================= -->
             <!-- SECTION 4.C: CORE SAFETY HUB (PRIMARY FEATURE CARDS)       -->
             <!-- ========================================================= -->
             <LinearLayout
