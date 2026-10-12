@@ -66,6 +66,11 @@ public class ProfileActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(currentUserId);
         mStorage = FirebaseStorage.getInstance().getReference("ProfilePictures").child(currentUserId + ".jpg");
 
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_profile);
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(v -> finish());
+        }
+
         imgProfilePhoto = findViewById(R.id.img_profile_photo);
         btnChangePhoto = findViewById(R.id.btn_change_photo);
         btnSaveProfile = findViewById(R.id.btn_save_profile);

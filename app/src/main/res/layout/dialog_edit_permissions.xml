@@ -276,9 +276,9 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:text="Block All"
-            android:textColor="#E53935"
+            android:textColor="@color/critical_red"
             app:cornerRadius="12dp"
-            app:strokeColor="#FFCDD2" />
+            app:strokeColor="@color/subtle_border" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_permissions"

@@ -1,53 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Existing Project Colors (preserved for backward compatibility) -->
-    <color name="primary">#6D3DB8</color>
-    <color name="primary_variant">#382253</color>
-    <color name="secondary">#03DAC5</color>
+    <!-- ========================================================= -->
+    <!-- WOSHIELD GLOBAL DESIGN SYSTEM: 3-COLOR BRAND PALETTE       -->
+    <!-- ========================================================= -->
+    <!-- Primary Brand: Royal Violet -->
+    <color name="royal_violet">#6D4AFF</color>
+    <color name="deep_purple">#6D4AFF</color>
+    <color name="vibrant_purple">#6D4AFF</color>
+    <color name="primary">#6D4AFF</color>
+    <color name="primary_variant">#5835E5</color>
+    <color name="theme1">#5835E5</color>
+    <color name="theme2">#6D4AFF</color>
+    <color name="button_color">#6D4AFF</color>
+    <color name="dark_purple">#243047</color>
+
+    <!-- Main Surface: Warm Ivory -->
+    <color name="warm_ivory">#FFF7F0</color>
+    <color name="woshield_bg">#FFF7F0</color>
+
+    <!-- Primary Text: Midnight Slate -->
+    <color name="midnight_slate">#243047</color>
+    <color name="text_primary">#243047</color>
+    <color name="theme3">#243047</color>
+
+    <!-- ========================================================= -->
+    <!-- NEUTRAL ACCESSIBILITY & HIERARCHY TOKENS                  -->
+    <!-- ========================================================= -->
+    <color name="text_secondary">#667085</color>
+    <color name="secondary_slate">#667085</color>
+    <color name="text_muted">#98A2B3</color>
     <color name="white">#FFFFFF</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="woshield_card_bg">#FFFFFF</color>
+    <color name="subtle_border">#E7E2EC</color>
+    <color name="card_stroke">#E7E2EC</color>
+    <color name="soft_violet">#F0ECFF</color>
+    <color name="soft_violet_surface">#F0ECFF</color>
+    <color name="light_lavender">#F0ECFF</color>
+    <color name="disabled_surface">#F1F2F5</color>
+    <color name="bottom_nav_bg">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="gray">#808080</color>
     <color name="light_gray">#D3D3D3</color>
     <color name="dark_gray">#616161</color>
     <color name="black_transparent">#55000000</color>
-    <color name="danger_color">#B42318</color>
-    <color name="button_color">#6D3DB8</color>
+    <color name="scrim_overlay">#33000000</color>
+    <color name="white_translucent">#E0FFFFFF</color>
     <color name="button_text_color">#FFFFFF</color>
-    <color name="red">#B42318</color>
-    <color name="error_red">#B42318</color>
-    <color name="warning_orange">#B7791F</color>
-    <color name="success_green">#18794E</color>
+    <color name="secondary">#6D4AFF</color>
+
+    <!-- ========================================================= -->
+    <!-- SEMANTIC STATUS TOKENS (Strictly used for real states)    -->
+    <!-- ========================================================= -->
+    <!-- Safe / Confirmed Status -->
+    <color name="safe_green">#16845B</color>
+    <color name="status_safe">#16845B</color>
+    <color name="success_green">#16845B</color>
+    <color name="status_safe_bg">#EAF7EE</color>
+
+    <!-- Warning / Delayed Status -->
+    <color name="warning_orange">#B86A08</color>
+    <color name="status_warning">#B86A08</color>
+    <color name="status_warning_bg">#FEF6E9</color>
+
+    <!-- Critical / SOS / Emergency -->
+    <color name="critical_red">#C62828</color>
+    <color name="danger_color">#C62828</color>
+    <color name="error_red">#C62828</color>
+    <color name="status_emergency">#C62828</color>
+    <color name="red">#C62828</color>
+    <color name="status_emergency_bg">#FDEDED</color>
+    <color name="status_emergency_dark">#8E1B1B</color>
+    <color name="sos_pulse_color">#44C62828</color>
     <color name="info_blue">#1976D2</color>
-    <color name="theme1">#382253</color>
-    <color name="theme2">#6D3DB8</color>
-    <color name="theme3">#202124</color>
-
-    <!-- Woshield Design System Primary Palette -->
-    <color name="deep_purple">#6D3DB8</color>
-    <color name="vibrant_purple">#6D3DB8</color>
-    <color name="safe_green">#18794E</color>
-    <color name="dark_purple">#382253</color>
-    <color name="light_lavender">#F3EDFA</color>
-    <color name="woshield_bg">#F8F6FC</color>
-    <color name="woshield_card_bg">#FFFFFF</color>
-
-    <!-- Typography Colors -->
-    <color name="text_primary">#202124</color>
-    <color name="text_secondary">#64748B</color>
-    <color name="text_muted">#94A3B8</color>
-
-    <!-- Semantic States -->
-    <color name="status_safe">#18794E</color>
-    <color name="status_safe_bg">#E6F4EA</color>
-    <color name="status_warning">#B7791F</color>
-    <color name="status_warning_bg">#FEF3D6</color>
-    <color name="status_emergency">#B42318</color>
-    <color name="status_emergency_bg">#FEE4E2</color>
-    <color name="status_emergency_dark">#7A160F</color>
-
-    <!-- UI Chrome & Strokes -->
-    <color name="subtle_border">#E7DDF3</color>
-    <color name="card_stroke">#E7DDF3</color>
-    <color name="bottom_nav_bg">#FFFFFF</color>
-    <color name="sos_pulse_color">#44B42318</color>
 </resources>

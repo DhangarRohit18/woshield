@@ -14,15 +14,18 @@
         android:layout_height="match_parent" />
 
     <!-- Button to Check Danger Zone -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_check_danger_zone"
+        style="@style/Widget.Woshield.Button.Primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="24dp"
+        android:paddingHorizontal="24dp"
         android:text="@string/btn_check_danger_zone"
         android:textAllCaps="false"
-        app:cornerRadius="8dp" />
+        android:textColor="@color/white"
+        app:elevation="4dp" />
 
 </RelativeLayout>

@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="#CCFFFFFF">
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/surface_card"
+    app:strokeColor="@color/subtle_border"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,6 +16,16 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/soft_violet"
+            android:padding="8dp"
+            android:src="@drawable/contact_icon"
+            app:tint="@color/royal_violet" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -25,18 +37,19 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:text="Contact Name"
+                android:textColor="@color/midnight_slate"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:id="@+id/tv_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Number"
-                android:textColor="#666666"
-                android:textSize="14sp" />
+                android:layout_marginTop="2dp"
+                android:text="+91 00000 00000"
+                android:textColor="@color/secondary_slate"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <ImageButton
@@ -44,16 +57,19 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Edit Contact"
             android:src="@android:drawable/ic_menu_edit"
-            app:tint="#4CAF50" />
+            app:tint="@color/royal_violet" />
 
         <ImageButton
             android:id="@+id/btn_delete"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete Contact"
             android:src="@android:drawable/ic_menu_delete"
-            app:tint="#F44336" />
+            app:tint="@color/critical_red" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

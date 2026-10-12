@@ -3,25 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/warm_ivory"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="Admin Control Panel"
-        android:textColor="@color/white"
-        android:textSize="28sp"
-        android:textStyle="bold" />
+        android:textColor="@color/midnight_slate"
+        android:textSize="26sp"
+        android:fontFamily="sans-serif-black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="System governance &amp; incident management"
+        android:textColor="@color/secondary_slate"
+        android:textSize="13sp" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="20dp">
 
         <GridLayout
             android:layout_width="match_parent"
@@ -30,135 +37,168 @@
             android:alignmentMode="alignMargins">
 
             <!-- Danger Zone Management -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViewReports"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 android:layout_margin="8dp"
                 android:layout_columnWeight="1"
-                app:cardBackgroundColor="#CCFFFFFF"
-                app:cardCornerRadius="15dp">
+                app:cardBackgroundColor="@color/surface_card"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/subtle_border"
+                app:strokeWidth="1dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:padding="12dp"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="@color/soft_violet"
+                        android:padding="10dp"
                         android:src="@drawable/emergency"
-                        app:tint="#D32F2F" />
+                        app:tint="@color/critical_red" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Manage Danger Zones"
+                        android:layout_marginTop="10dp"
+                        android:text="Danger Zones"
                         android:textAlignment="center"
-                        android:textColor="#333"
-                        android:textStyle="bold" />
+                        android:textColor="@color/midnight_slate"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Emergency Logs -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViewEmergencyLogs"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 android:layout_margin="8dp"
                 android:layout_columnWeight="1"
-                app:cardBackgroundColor="#CCFFFFFF"
-                app:cardCornerRadius="15dp">
+                app:cardBackgroundColor="@color/surface_card"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/subtle_border"
+                app:strokeWidth="1dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:padding="12dp"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@android:drawable/ic_menu_recent_history"
-                        app:tint="#1976D2" />
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="@color/soft_violet"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_history"
+                        app:tint="@color/royal_violet" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:text="Live SOS Logs"
                         android:textAlignment="center"
-                        android:textColor="#333"
-                        android:textStyle="bold" />
+                        android:textColor="@color/midnight_slate"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- App Analytics -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViewAnalytics"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 android:layout_margin="8dp"
                 android:layout_columnWeight="1"
-                app:cardBackgroundColor="#CCFFFFFF"
-                app:cardCornerRadius="15dp">
+                app:cardBackgroundColor="@color/surface_card"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/subtle_border"
+                app:strokeWidth="1dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:padding="12dp"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@android:drawable/ic_menu_mylocation"
-                        app:tint="#388E3C" />
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="@color/soft_violet"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_location_pin"
+                        app:tint="@color/royal_violet" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:text="App Analytics"
                         android:textAlignment="center"
-                        android:textColor="#333"
-                        android:textStyle="bold" />
+                        android:textColor="@color/midnight_slate"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Broadcast Alerts -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViewBroadcast"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 android:layout_margin="8dp"
                 android:layout_columnWeight="1"
-                app:cardBackgroundColor="#CCFFFFFF"
-                app:cardCornerRadius="15dp">
+                app:cardBackgroundColor="@color/surface_card"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/subtle_border"
+                app:strokeWidth="1dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:padding="12dp"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@android:drawable/ic_dialog_info"
-                        app:tint="#FBC02D" />
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="@color/soft_violet"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_alert_triangle"
+                        app:tint="@color/royal_violet" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:text="Broadcast Alert"
                         android:textAlignment="center"
-                        android:textColor="#333"
-                        android:textStyle="bold" />
+                        android:textColor="@color/midnight_slate"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </GridLayout>
     </ScrollView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
+        style="@style/Widget.Woshield.Button.Outlined"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#FF5252"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
         android:text="Logout Admin"
-        android:textColor="@color/white" />
+        android:textColor="@color/critical_red"
+        app:strokeColor="@color/critical_red" />
 
 </LinearLayout>

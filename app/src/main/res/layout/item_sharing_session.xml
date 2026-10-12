@@ -100,10 +100,10 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="0dp"
                 android:text="Revoke"
-                android:textColor="#E53935"
+                android:textColor="@color/critical_red"
                 android:textSize="12sp"
                 app:cornerRadius="18dp"
-                app:strokeColor="#FFCDD2" />
+                app:strokeColor="@color/subtle_border" />
 
         </LinearLayout>
 

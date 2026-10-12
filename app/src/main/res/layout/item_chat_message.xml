@@ -12,7 +12,6 @@
         android:padding="12dp"
         android:textSize="16sp"
         android:textColor="@color/white"
-        android:maxWidth="280dp"
-        android:background="#80000000" />
+        android:maxWidth="280dp" />
 
 </LinearLayout>

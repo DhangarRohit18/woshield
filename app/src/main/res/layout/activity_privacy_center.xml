@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F7FD">
+    android:background="@color/warm_ivory">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -127,10 +127,10 @@
                             android:layout_weight="1"
                             android:fontFamily="sans-serif-medium"
                             android:text="Stop All Sharing"
-                            android:textColor="#E53935"
+                            android:textColor="@color/critical_red"
                             android:textSize="12sp"
                             app:cornerRadius="12dp"
-                            app:strokeColor="#FFCDD2" />
+                            app:strokeColor="@color/subtle_border" />
 
                     </LinearLayout>
 
@@ -409,10 +409,10 @@
                             android:layout_marginStart="6dp"
                             android:layout_weight="1"
                             android:text="Clear Audit Log"
-                            android:textColor="#E53935"
+                            android:textColor="@color/critical_red"
                             android:textSize="11sp"
                             app:cornerRadius="10dp"
-                            app:strokeColor="#FFCDD2" />
+                            app:strokeColor="@color/subtle_border" />
 
                     </LinearLayout>
 

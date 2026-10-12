@@ -24,7 +24,7 @@
             app:title="Family Dashboard"
             app:subtitle="Trusted Safety Circle"
             app:titleTextColor="@color/white"
-            app:subtitleTextColor="#C8B8E8" />
+            app:subtitleTextColor="@color/soft_violet" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -339,7 +339,7 @@
                                 android:layout_marginTop="2dp"
                                 android:fontFamily="sans-serif"
                                 android:text="Dispatches location and audio alert to your emergency circle"
-                                android:textColor="#E0FFFFFF"
+                                android:textColor="@color/white_translucent"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -361,7 +361,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:background="@drawable/rounded_corner"
-                        android:backgroundTint="#33000000"
+                        android:backgroundTint="@color/scrim_overlay"
                         android:gravity="center"
                         android:paddingHorizontal="14dp"
                         android:paddingVertical="9dp">
