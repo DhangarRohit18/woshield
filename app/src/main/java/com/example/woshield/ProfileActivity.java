@@ -69,6 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
         imgProfilePhoto = findViewById(R.id.img_profile_photo);
         btnChangePhoto = findViewById(R.id.btn_change_photo);
         btnSaveProfile = findViewById(R.id.btn_save_profile);
+        Button btnPrivacyCenter = findViewById(R.id.btn_privacy_center);
         etName = findViewById(R.id.et_name);
         etMobileNumber = findViewById(R.id.et_mobile_number);
 
@@ -76,6 +77,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnChangePhoto.setOnClickListener(v -> openGallery());
         btnSaveProfile.setOnClickListener(v -> validateAndVerify());
+        if (btnPrivacyCenter != null) {
+            btnPrivacyCenter.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, PrivacyCenterActivity.class)));
+        }
     }
 
     private void fetchUserProfile() {

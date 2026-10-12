@@ -20,6 +20,12 @@
         android:orderInCategory="250"
         android:showAsAction="never" />
     <item
+        android:id="@+id/action_privacy_center"
+        android:title="Privacy &amp; Security Center"
+        android:icon="@drawable/ic_shield_lock"
+        android:orderInCategory="275"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/action_emergency_contact"
         android:title="Set Emergency Contact"
         android:icon="@drawable/emergency_contact"

@@ -727,6 +727,9 @@ public class HomePage extends AppCompatActivity {
         } else if (id == R.id.action_family_dashboard) {
             startActivity(new Intent(this, FamilyDashboardActivity.class));
             return true;
+        } else if (id == R.id.action_privacy_center) {
+            startActivity(new Intent(this, PrivacyCenterActivity.class));
+            return true;
         } else if (id == R.id.action_emergency_contact) {
             startActivity(new Intent(this, EmergencyContactActivity.class));
             return true;

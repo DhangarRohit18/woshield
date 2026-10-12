@@ -24,6 +24,8 @@
 
     <!-- Woshield Design System Primary Palette -->
     <color name="deep_purple">#6D3DB8</color>
+    <color name="vibrant_purple">#6D3DB8</color>
+    <color name="safe_green">#18794E</color>
     <color name="dark_purple">#382253</color>
     <color name="light_lavender">#F3EDFA</color>
     <color name="woshield_bg">#F8F6FC</color>
