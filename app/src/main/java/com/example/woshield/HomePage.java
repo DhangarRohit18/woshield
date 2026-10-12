@@ -35,6 +35,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -81,6 +82,7 @@ public class HomePage extends AppCompatActivity {
     private MaterialCardView btnAdminDashboard;
     private BottomNavigationView bottomNavigationView;
     private String activePendingCheckInId = null;
+    private SafetyDecision latestSafetyDecision = null;
 
     // Handlers & State
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -233,6 +235,12 @@ public class HomePage extends AppCompatActivity {
             tvManageCircle.setOnClickListener(v -> startActivity(new Intent(this, FamilyDashboardActivity.class)));
         }
 
+        // Safety Intelligence Status Card
+        View cardSafetyStatus = findViewById(R.id.card_safety_status);
+        if (cardSafetyStatus != null) {
+            cardSafetyStatus.setOnClickListener(v -> showSafetyIntelligenceDetailsDialog());
+        }
+
         // Daily Routine & Safe Stops
         View btnDailyRoutine = findViewById(R.id.btn_daily_routine);
         if (btnDailyRoutine != null) {
@@ -358,6 +366,96 @@ public class HomePage extends AppCompatActivity {
             switchService.setChecked(isEnabled);
         }
 
+        SafetyDecisionRepository decisionRepo = new SafetyDecisionRepository();
+        decisionRepo.getRecentDecision(new SafetyDecisionRepository.RepositoryCallback<SafetyDecision>() {
+            @Override
+            public void onSuccess(SafetyDecision decision) {
+                if (isFinishing() || isDestroyed()) return;
+                latestSafetyDecision = decision;
+                applySafetyDecisionToUI(decision, isEnabled);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                if (isFinishing() || isDestroyed()) return;
+                applyDefaultSafetyStatus(isEnabled);
+            }
+        });
+    }
+
+    private void applySafetyDecisionToUI(SafetyDecision decision, boolean isEnabled) {
+        if (decision == null || decision.isDismissed() || SafetyDecision.OUTCOME_NO_ACTION.equals(decision.getOutcome())) {
+            applyDefaultSafetyStatus(isEnabled);
+            return;
+        }
+
+        String outcome = decision.getOutcome();
+        if (SafetyDecision.OUTCOME_EMERGENCY_ACTIVE.equals(outcome)) {
+            if (layoutStatusBadge != null) {
+                layoutStatusBadge.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_emergency_bg)));
+            }
+            if (imgStatusIcon != null) {
+                imgStatusIcon.setImageResource(R.drawable.ic_emergency_sos);
+                imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_emergency)));
+            }
+            if (tvStatusTitle != null) {
+                tvStatusTitle.setText("Emergency Active");
+                tvStatusTitle.setTextColor(ContextCompat.getColor(this, R.color.status_emergency));
+            }
+            if (tvStatusDescription != null) {
+                tvStatusDescription.setText(decision.getExplanation() != null ? decision.getExplanation() : "Emergency alert actively escalating.");
+            }
+        } else if (SafetyDecision.OUTCOME_SAFETY_CHECK_RECOMMENDED.equals(outcome)) {
+            if (layoutStatusBadge != null) {
+                layoutStatusBadge.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_warning_bg)));
+            }
+            if (imgStatusIcon != null) {
+                imgStatusIcon.setImageResource(R.drawable.ic_alert_triangle);
+                imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_warning)));
+            }
+            if (tvStatusTitle != null) {
+                tvStatusTitle.setText("Safety Check Advised");
+                tvStatusTitle.setTextColor(ContextCompat.getColor(this, R.color.status_warning));
+            }
+            if (tvStatusDescription != null) {
+                tvStatusDescription.setText(decision.getExplanation() != null ? decision.getExplanation() : "Safety variance detected. Tap for details.");
+            }
+        } else if (SafetyDecision.OUTCOME_MONITORING_UNCERTAIN.equals(outcome)) {
+            if (layoutStatusBadge != null) {
+                layoutStatusBadge.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_lavender)));
+            }
+            if (imgStatusIcon != null) {
+                imgStatusIcon.setImageResource(R.drawable.ic_history);
+                imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.deep_purple)));
+            }
+            if (tvStatusTitle != null) {
+                tvStatusTitle.setText("Sensor Uncertainty");
+                tvStatusTitle.setTextColor(ContextCompat.getColor(this, R.color.deep_purple));
+            }
+            if (tvStatusDescription != null) {
+                tvStatusDescription.setText(decision.getExplanation() != null ? decision.getExplanation() : "GPS or connectivity uncertain.");
+            }
+        } else if (SafetyDecision.OUTCOME_ASSISTANCE_REQUESTED.equals(outcome)) {
+            if (layoutStatusBadge != null) {
+                layoutStatusBadge.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_warning_bg)));
+            }
+            if (imgStatusIcon != null) {
+                imgStatusIcon.setImageResource(R.drawable.ic_assistance_hand);
+                imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_warning)));
+            }
+            if (tvStatusTitle != null) {
+                tvStatusTitle.setText("Assistance Requested");
+                tvStatusTitle.setTextColor(ContextCompat.getColor(this, R.color.status_warning));
+            }
+            if (tvStatusDescription != null) {
+                tvStatusDescription.setText(decision.getExplanation() != null ? decision.getExplanation() : "Assistance request is active.");
+            }
+        } else {
+            applyDefaultSafetyStatus(isEnabled);
+        }
+    }
+
+    private void applyDefaultSafetyStatus(boolean isEnabled) {
         if (isEnabled) {
             if (layoutStatusBadge != null) {
                 layoutStatusBadge.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_safe_bg)));
@@ -389,6 +487,49 @@ public class HomePage extends AppCompatActivity {
                 tvStatusDescription.setText(R.string.monitoring_inactive_desc);
             }
         }
+    }
+
+    private void showSafetyIntelligenceDetailsDialog() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        builder.setTitle("AI Safety Intelligence");
+
+        if (latestSafetyDecision != null && !latestSafetyDecision.isDismissed()) {
+            StringBuilder msg = new StringBuilder();
+            msg.append(latestSafetyDecision.getExplanation() != null ? latestSafetyDecision.getExplanation() : "All safety signals normal.")
+               .append("\n\n")
+               .append("• Decision: ").append(latestSafetyDecision.getOutcome())
+               .append("\n• Rule: ").append(latestSafetyDecision.getTriggeringRule());
+
+            if (latestSafetyDecision.getUncertaintyReason() != null) {
+                msg.append("\n• Detail: ").append(latestSafetyDecision.getUncertaintyReason());
+            }
+
+            builder.setMessage(msg.toString());
+
+            builder.setPositiveButton("I Am Safe", (dialog, which) -> {
+                SafetyDecisionRepository repo = new SafetyDecisionRepository();
+                repo.dismissDecision(latestSafetyDecision.getDecisionId(), new SafetyDecisionRepository.RepositoryCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        Toast.makeText(HomePage.this, "Safety status confirmed.", Toast.LENGTH_SHORT).show();
+                        updateSafetyStatusUI();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {}
+                });
+            });
+
+            builder.setNeutralButton("Smart Check-In", (dialog, which) -> {
+                startActivity(new Intent(HomePage.this, SmartCheckInActivity.class));
+            });
+        } else {
+            builder.setMessage("Your AI Safety Intelligence engine is actively monitoring scheduled routines, GPS corridor boundaries, and emergency signals.\n\nAll signals are currently nominal.");
+            builder.setPositiveButton("OK", null);
+        }
+
+        builder.setNegativeButton("Close", null);
+        builder.show();
     }
 
     private void setupServiceSwitch() {
