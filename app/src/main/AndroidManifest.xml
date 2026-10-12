@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.woshield">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -77,6 +76,9 @@
             android:exported="false" />
         <activity
             android:name=".WebViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WalkWithMeActivity"
             android:exported="false" />
         <activity
             android:name=".EmergencyContactActivity"

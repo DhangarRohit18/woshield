@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 123;
     private EditText etEmail, etPassword;
     private Button btnLogin, btnOfflineSos;
-    private TextView tvForgotPassword;
+    private TextView tvForgotPassword, tvRegister;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private FusedLocationProviderClient fusedLocationClient;
@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         btnOfflineSos = findViewById(R.id.btnOfflineSos);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        tvRegister = findViewById(R.id.registerText);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> loginUser());
         tvForgotPassword.setOnClickListener(v -> resetPassword());
+        tvRegister.setOnClickListener(v -> goToSignup(v));
         
         btnOfflineSos.setOnClickListener(v -> handleOfflineSos());
     }

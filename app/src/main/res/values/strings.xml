@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">EmpowHer</string>
-    <string name="title_activity_maps">MapsActivity</string>
-    <string name="buzzle_option">Buzzle Option</string>
+    <string name="app_name">Woshield</string>
+    <string name="woshield_subtitle">Your safety, your control</string>
+    <string name="title_activity_maps">Danger Zones</string>
+    <string name="buzzle_option">Buzzer Option</string>
     <string name="facebook_app_id">YOUR_FACEBOOK_APP_ID</string>
     <string name="facebook_client_token">YOUR_FACEBOOK_CLIENT_TOKEN</string>
     <string name="btn_check_danger_zone">Check Danger Zone</string>
+    <string name="sos_tap_hold_hint">Tap for Quick SOS • Hold 2s to Record Evidence</string>
+    <string name="monitoring_active">Voice Shield Active</string>
+    <string name="monitoring_inactive">Monitoring Inactive</string>
+    <string name="monitoring_active_desc">Voice recognition is running in the background. Saying emergency keywords will trigger immediate alerts.</string>
+    <string name="monitoring_inactive_desc">Background voice monitoring is paused. Toggle Voice Shield to activate threat detection.</string>
 </resources>
