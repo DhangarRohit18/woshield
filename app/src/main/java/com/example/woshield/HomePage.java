@@ -80,6 +80,7 @@ public class HomePage extends AppCompatActivity {
     // Secondary & Admin Views
     private MaterialCardView btnAdminDashboard;
     private BottomNavigationView bottomNavigationView;
+    private String activePendingCheckInId = null;
 
     // Handlers & State
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -131,6 +132,7 @@ public class HomePage extends AppCompatActivity {
         super.onResume();
         updateEmergencyContactsCount();
         updateSafetyStatusUI();
+        checkActiveCheckInStatus();
         if (bottomNavigationView != null) {
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
         }
@@ -243,6 +245,18 @@ public class HomePage extends AppCompatActivity {
         View btnHomeOpenSafeStops = findViewById(R.id.btn_home_open_safe_stops);
         if (btnHomeOpenSafeStops != null) {
             btnHomeOpenSafeStops.setOnClickListener(v -> startActivity(new Intent(this, SafeStopsActivity.class)));
+        }
+
+        // Smart Check-In & Safety Escalation
+        View btnSmartCheckin = findViewById(R.id.btn_smart_checkin);
+        if (btnSmartCheckin != null) {
+            btnSmartCheckin.setOnClickListener(v -> {
+                Intent intent = new Intent(this, SmartCheckInActivity.class);
+                if (activePendingCheckInId != null) {
+                    intent.putExtra(SmartCheckInActivity.EXTRA_CHECK_IN_ID, activePendingCheckInId);
+                }
+                startActivity(intent);
+            });
         }
 
         // Primary Feature Cards
@@ -715,6 +729,45 @@ public class HomePage extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void checkActiveCheckInStatus() {
+        CheckInRepository checkInRepo = new CheckInRepository();
+        checkInRepo.getPendingCheckIn(new CheckInRepository.RepositoryCallback<CheckIn>() {
+            @Override
+            public void onSuccess(CheckIn checkIn) {
+                View layoutPending = findViewById(R.id.layout_home_pending_checkin);
+                TextView tvPendingText = findViewById(R.id.tv_home_pending_checkin_text);
+                TextView badgeStatus = findViewById(R.id.badge_home_checkin_status);
+
+                if (checkIn != null && !checkIn.isExpired()) {
+                    activePendingCheckInId = checkIn.getCheckInId();
+                    if (layoutPending != null) layoutPending.setVisibility(View.VISIBLE);
+                    if (tvPendingText != null) {
+                        tvPendingText.setText("Active Check-In: " + checkIn.getReason() + " (Due soon)");
+                    }
+                    if (badgeStatus != null) {
+                        badgeStatus.setText("Alert Active");
+                        badgeStatus.setBackgroundResource(R.drawable.badge_routine);
+                        badgeStatus.setTextColor(ContextCompat.getColor(HomePage.this, R.color.warning_orange));
+                    }
+                } else {
+                    activePendingCheckInId = null;
+                    if (layoutPending != null) layoutPending.setVisibility(View.GONE);
+                    if (badgeStatus != null) {
+                        badgeStatus.setText("Ready");
+                        badgeStatus.setBackgroundResource(R.drawable.badge_safe);
+                        badgeStatus.setTextColor(ContextCompat.getColor(HomePage.this, R.color.status_safe));
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                // Silently ignore network failures on home screen
+            }
+        });
     }
 
     @Override

@@ -165,7 +165,23 @@ public class RoutineActivity extends AppCompatActivity implements RoutineAdapter
 
     @Override
     public void onItemClick(Routine routine) {
-        onEdit(routine);
+        String[] options = {"Start Safety Check-In Now", "Edit Routine Settings"};
+        new AlertDialog.Builder(this)
+                .setTitle(routine.getTitle())
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        Intent checkInIntent = new Intent(this, SmartCheckInActivity.class);
+                        checkInIntent.putExtra(SmartCheckInActivity.EXTRA_ROUTINE_ID, routine.getId());
+                        checkInIntent.putExtra(SmartCheckInActivity.EXTRA_ROUTINE_TITLE, routine.getTitle());
+                        checkInIntent.putExtra(SmartCheckInActivity.EXTRA_REASON, "Routine Checkpoint: " + routine.getTitle());
+                        int duration = routine.getCheckInIntervalMinutes() > 0 ? routine.getCheckInIntervalMinutes() : 15;
+                        checkInIntent.putExtra(SmartCheckInActivity.EXTRA_DURATION_MINUTES, duration);
+                        startActivity(checkInIntent);
+                    } else {
+                        onEdit(routine);
+                    }
+                })
+                .show();
     }
 
     @Override
