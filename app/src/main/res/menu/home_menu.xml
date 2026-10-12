@@ -14,6 +14,12 @@
 
         android:showAsAction="never" />
     <item
+        android:id="@+id/action_family_dashboard"
+        android:title="Family Dashboard"
+        android:icon="@drawable/ic_family_group"
+        android:orderInCategory="250"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/action_emergency_contact"
         android:title="Set Emergency Contact"
         android:icon="@drawable/emergency_contact"

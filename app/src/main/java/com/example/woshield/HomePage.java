@@ -230,7 +230,7 @@ public class HomePage extends AppCompatActivity {
         // Manage circle text action
         View tvManageCircle = findViewById(R.id.tv_manage_circle);
         if (tvManageCircle != null) {
-            tvManageCircle.setOnClickListener(v -> startActivity(new Intent(this, EmergencyContactActivity.class)));
+            tvManageCircle.setOnClickListener(v -> startActivity(new Intent(this, FamilyDashboardActivity.class)));
         }
 
         // Daily Routine & Safe Stops
@@ -318,7 +318,7 @@ public class HomePage extends AppCompatActivity {
                 startActivity(new Intent(this, MapsActivity.class));
                 return true;
             } else if (id == R.id.nav_circle) {
-                startActivity(new Intent(this, EmergencyContactActivity.class));
+                startActivity(new Intent(this, FamilyDashboardActivity.class));
                 return true;
             } else if (id == R.id.nav_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));
@@ -723,6 +723,9 @@ public class HomePage extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_profile) {
             startActivity(new Intent(this, ProfileActivity.class));
+            return true;
+        } else if (id == R.id.action_family_dashboard) {
+            startActivity(new Intent(this, FamilyDashboardActivity.class));
             return true;
         } else if (id == R.id.action_emergency_contact) {
             startActivity(new Intent(this, EmergencyContactActivity.class));

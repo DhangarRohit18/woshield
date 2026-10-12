@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Invite Trusted Circle Member"
+            android:textColor="@color/dark_purple"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif"
+            android:text="The invited family member must authenticate and accept this invite before gaining access to your shared safety status."
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <!-- Recipient Email -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:hint="Family Member's Email *"
+            app:boxStrokeColor="@color/deep_purple">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_invite_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Recipient Phone (Optional) -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Contact Phone (Optional)"
+            app:boxStrokeColor="@color/deep_purple">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_invite_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Granular Permissions Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Granular Permissions Granted"
+            android:textColor="@color/deep_purple"
+            android:textSize="13sp"
+            android:letterSpacing="0.04" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_perm_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="View Shared Safety Status (Safe / Check-In)"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_perm_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="View Location During Active Sessions"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_perm_journey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="View Daily Routines &amp; Expected Arrival"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_perm_sos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Receive Emergency SOS Alerts"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_perm_assistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Receive Discreet Assistance Requests"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_perm_missed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Receive Missed Check-In Escalation Notices"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+
+        <!-- Sharing Expiration -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Sharing Duration"
+            android:textColor="@color/deep_purple"
+            android:textSize="13sp" />
+
+        <RadioGroup
+            android:id="@+id/rg_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_perpetual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Until revoked manually"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rb_24h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="24 Hours (Temporary Safe Commute)"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rb_7d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7 Days"
+                android:textSize="13sp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</ScrollView>
