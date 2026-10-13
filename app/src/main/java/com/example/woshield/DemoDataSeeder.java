@@ -29,7 +29,9 @@ import java.util.Map;
 
 /**
  * Authoritative Demo Data Seeder for Woshield.
- * Seeds synchronized, interconnected datasets across:
+ * Seeds synchronized, interconnected datasets centered on user coordinates:
+ * 18°27'44.1"N 73°51'53.9"E (18.46225° N, 73.864972° E)
+ * Across:
  * 1. User Safety Dashboard (HomePage, Routines, Safe Stops, Check-Ins, Privacy)
  * 2. Family Guardian Dashboard (Wards, Live Telemetry, Safety Circle Alerts)
  * 3. Admin Governance Dashboard (Danger Zone Approvals, Emergency Audit Logs)
@@ -39,6 +41,10 @@ public class DemoDataSeeder {
 
     public static final String DEMO_UID = "demo_woshield_user";
     public static final String PREF_DEMO_MODE = "woshield_demo_mode_active";
+
+    // User's exact target coordinates: 18°27'44.1"N 73°51'53.9"E
+    public static final double USER_LAT = 18.46225;
+    public static final double USER_LON = 73.864972;
 
     public static boolean isDemoMode(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -88,9 +94,9 @@ public class DemoDataSeeder {
         seedWardLiveLocations(rootRef);
         seedAdminDangerZones(rootRef);
 
-        Log.d(TAG, "All interconnected demo datasets seeded successfully!");
+        Log.d(TAG, "All interconnected demo datasets seeded successfully at 18°27'44.1\"N 73°51'53.9\"E!");
         if (showToast) {
-            Toast.makeText(context, "⚡ Interconnected demo dataset seeded! Dashboards synchronized.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "⚡ Interconnected demo dataset seeded at 18°27'44.1\"N 73°51'53.9\"E!", Toast.LENGTH_LONG).show();
         }
 
         if (onDone != null) {
@@ -149,13 +155,14 @@ public class DemoDataSeeder {
     private static void seedRoutines(DatabaseReference rootRef, String uid) {
         DatabaseReference routinesRef = rootRef.child("Users").child(uid).child("routines");
 
+        // Routine 1: Daily evening commute centered on user coordinates
         Routine r1 = new Routine(
                 "routine_metro_commute",
                 uid,
-                "Evening Metro Commute",
+                "Evening Campus Commute",
                 "COMMUTE",
-                "University Campus Gate",
-                "Home - Model Colony",
+                "Bharati Vidyapeeth Campus Gate",
+                "Home Safe Haven (18°27'44.1\"N 73°51'53.9\"E)",
                 "18:00",
                 "19:30",
                 18,
@@ -167,13 +174,14 @@ public class DemoDataSeeder {
                 true
         );
 
+        // Routine 2: Morning neighborhood jog centered on user coordinates
         Routine r2 = new Routine(
                 "routine_morning_walk",
                 uid,
-                "Morning Campus Jog",
+                "Morning Neighborhood Jog",
                 "EXERCISE",
-                "Hostel Block A",
-                "Sports Complex Track",
+                "Home Safe Haven (18°27'44.1\"N 73°51'53.9\"E)",
+                "Katraj Lake Green Belt",
                 "06:30",
                 "07:30",
                 6,
@@ -192,42 +200,45 @@ public class DemoDataSeeder {
     private static void seedSafePlaces(DatabaseReference rootRef, String uid) {
         DatabaseReference placesRef = rootRef.child("Users").child(uid).child("safePlaces");
 
+        // Primary Safe Place at EXACT coordinates: 18°27'44.1"N 73°51'53.9"E
         SafePlace p1 = new SafePlace(
                 "safe_place_home",
                 uid,
                 "Home Safe Haven",
                 "HOME",
-                "Model Colony, Shivajinagar, Pune",
-                18.5308,
-                73.8475,
+                "Bibwewadi-Dhankawadi Road, Pune (18°27'44.1\"N 73°51'53.9\"E)",
+                USER_LAT,
+                USER_LON,
                 true,
-                "Primary Contact: Rajesh Sharma (+919876543211)",
+                "Primary Safe Haven. Family Contact: Rajesh Sharma (+919876543211)",
                 true
         );
 
+        // Academic safe point (~700m away)
         SafePlace p2 = new SafePlace(
                 "safe_place_campus",
                 uid,
-                "University Women Safety Cell",
+                "Bharati Vidyapeeth Women Safety Cell",
                 "UNIVERSITY",
-                "Ganeshkhind Road, Pune",
-                18.5529,
-                73.8266,
+                "Educational Complex, Dhankawadi, Pune",
+                18.46780,
+                73.86150,
                 true,
-                "Campus Security Helpdesk: 1091",
+                "Campus Security Helpdesk & Women Cell: 1091",
                 true
         );
 
+        // Police safe point (~900m away)
         SafePlace p3 = new SafePlace(
                 "safe_place_metro",
                 uid,
-                "Shivaji Nagar Metro Police Post",
+                "Katraj Police Helpdesk & Safety Post",
                 "POLICE_STATION",
-                "Station Concourse Level 1, Pune",
-                18.5312,
-                73.8510,
+                "Katraj Transit Corridor, Pune-Satara Road, Pune",
+                18.45520,
+                73.86750,
                 true,
-                "Metro Police Desk: 100",
+                "24/7 Police Helpdesk: 100",
                 true
         );
 
@@ -241,28 +252,34 @@ public class DemoDataSeeder {
 
         long now = System.currentTimeMillis();
 
+        // Check-in right at user's coordinate corridor
         CheckIn c1 = new CheckIn(
                 "checkin_demo_01",
                 uid,
                 "routine_metro_commute",
-                "Evening Metro Commute",
+                "Evening Campus Commute",
                 "",
-                "Metro Commute Checkpoint: Shivaji Nagar Metro",
+                "Commute Checkpoint: Dhankawadi Corridor (18°27'44.1\"N 73°51'53.9\"E)",
                 now + 20 * 60 * 1000L
         );
         c1.setStatus(CheckIn.STATUS_PENDING);
+        c1.setLatitude(USER_LAT);
+        c1.setLongitude(USER_LON);
+        c1.setLocationAddress("Bibwewadi-Dhankawadi Road, Pune");
 
         CheckIn c2 = new CheckIn(
                 "checkin_demo_02",
                 uid,
                 "routine_morning_walk",
-                "Morning Campus Jog",
+                "Morning Neighborhood Jog",
                 "",
-                "Jogging Checkpoint: University Sports Complex",
+                "Jogging Checkpoint: Katraj Lake Green Belt",
                 now - 3 * 3600 * 1000L
         );
         c2.setStatus(CheckIn.STATUS_CONFIRMED_SAFE);
         c2.setRespondedAt(now - 3 * 3600 * 1000L - 10 * 60 * 1000L);
+        c2.setLatitude(18.45750);
+        c2.setLongitude(73.86220);
 
         checkInsRef.child(c1.getCheckInId()).setValue(c1);
         checkInsRef.child(c2.getCheckInId()).setValue(c2);
@@ -276,7 +293,7 @@ public class DemoDataSeeder {
         SharingSession s1 = new SharingSession(
                 "session_demo_priya",
                 uid,
-                "Evening Commute with Priya",
+                "Commute Live Sharing with Priya",
                 Collections.singletonList("ward_priya_sharma"),
                 Collections.singletonList("Priya Sharma (Sister)"),
                 now + 45 * 60 * 1000L
@@ -300,6 +317,7 @@ public class DemoDataSeeder {
 
         CirclePermissions perms = new CirclePermissions(true, true, true, true, true, true, true, 0);
 
+        // Sister nearby on transit (~350m away)
         FamilyMember m1 = new FamilyMember(
                 "ward_priya_sharma",
                 "Priya Sharma (Sister)",
@@ -309,13 +327,14 @@ public class DemoDataSeeder {
         );
         m1.setRelationship("Sister");
         m1.setSafetyStatus(FamilyMember.STATUS_SAFE);
-        m1.setStatusDetails("Active Metro Journey in Progress");
-        m1.setLatitude(18.5204);
-        m1.setLongitude(73.8567);
-        m1.setLocationAddress("FC Road, Deccan Gymkhana, Pune");
+        m1.setStatusDetails("In Transit - Pune-Satara Road");
+        m1.setLatitude(18.46080);
+        m1.setLongitude(73.86310);
+        m1.setLocationAddress("Pune-Satara Road, Dhankawadi, Pune");
         m1.setLocationTimestamp(System.currentTimeMillis());
         m1.setSharingActive(true);
 
+        // Father near transit hub (~900m away)
         FamilyMember m2 = new FamilyMember(
                 "ward_rajesh_sharma",
                 "Rajesh Sharma (Father)",
@@ -325,13 +344,14 @@ public class DemoDataSeeder {
         );
         m2.setRelationship("Father");
         m2.setSafetyStatus(FamilyMember.STATUS_SAFE);
-        m2.setStatusDetails("In Transit - Kothrud Corridor");
-        m2.setLatitude(18.5074);
-        m2.setLongitude(73.8077);
-        m2.setLocationAddress("Kothrud Central, Pune");
+        m2.setStatusDetails("Near Katraj Transit Corridor");
+        m2.setLatitude(18.45520);
+        m2.setLongitude(73.86750);
+        m2.setLocationAddress("Katraj Transit Corridor, Pune");
         m2.setLocationTimestamp(System.currentTimeMillis() - 180000L);
         m2.setSharingActive(true);
 
+        // Mother at Home with user (EXACT coordinates)
         FamilyMember m3 = new FamilyMember(
                 "ward_sunita_sharma",
                 "Sunita Sharma (Mother)",
@@ -342,9 +362,9 @@ public class DemoDataSeeder {
         m3.setRelationship("Mother");
         m3.setSafetyStatus(FamilyMember.STATUS_SAFE);
         m3.setStatusDetails("At Verified Safe Haven: Home");
-        m3.setLatitude(18.5308);
-        m3.setLongitude(73.8475);
-        m3.setLocationAddress("Model Colony Safe Haven, Pune");
+        m3.setLatitude(USER_LAT);
+        m3.setLongitude(USER_LON);
+        m3.setLocationAddress("Home Safe Haven, Bibwewadi-Dhankawadi, Pune");
         m3.setLocationTimestamp(System.currentTimeMillis() - 600000L);
         m3.setSharingActive(true);
 
@@ -357,27 +377,27 @@ public class DemoDataSeeder {
         DatabaseReference locRef = rootRef.child("LiveLocations");
 
         Map<String, Object> l1 = new HashMap<>();
-        l1.put("latitude", 18.5204);
-        l1.put("longitude", 73.8567);
-        l1.put("address", "FC Road, Deccan Gymkhana, Pune");
+        l1.put("latitude", 18.46080);
+        l1.put("longitude", 73.86310);
+        l1.put("address", "Pune-Satara Road, Dhankawadi, Pune");
         l1.put("batteryPercent", 92);
         l1.put("batteryLevel", 92);
         l1.put("speed", 0.0);
         l1.put("timestamp", System.currentTimeMillis());
 
         Map<String, Object> l2 = new HashMap<>();
-        l2.put("latitude", 18.5074);
-        l2.put("longitude", 73.8077);
-        l2.put("address", "Kothrud Central, Pune");
+        l2.put("latitude", 18.45520);
+        l2.put("longitude", 73.86750);
+        l2.put("address", "Katraj Transit Corridor, Pune");
         l2.put("batteryPercent", 78);
         l2.put("batteryLevel", 78);
         l2.put("speed", 18.2);
         l2.put("timestamp", System.currentTimeMillis() - 180000L);
 
         Map<String, Object> l3 = new HashMap<>();
-        l3.put("latitude", 18.5308);
-        l3.put("longitude", 73.8475);
-        l3.put("address", "Model Colony Safe Haven, Pune");
+        l3.put("latitude", USER_LAT);
+        l3.put("longitude", USER_LON);
+        l3.put("address", "Home Safe Haven, Bibwewadi-Dhankawadi, Pune");
         l3.put("batteryPercent", 64);
         l3.put("batteryLevel", 64);
         l3.put("speed", 0.0);
@@ -396,9 +416,9 @@ public class DemoDataSeeder {
                 "ward_priya_sharma",
                 "Priya Sharma",
                 FamilyAlert.TYPE_ROUTINE_ARRIVAL,
-                "Priya confirmed Safe Check-In at College Stop on schedule.",
-                18.5204,
-                73.8567,
+                "Priya confirmed Safe Check-In on Dhankawadi Corridor.",
+                18.46080,
+                73.86310,
                 ""
         );
 
@@ -407,9 +427,9 @@ public class DemoDataSeeder {
                 "ward_sunita_sharma",
                 "Sunita Sharma",
                 FamilyAlert.TYPE_ROUTINE_ARRIVAL,
-                "Sunita arrived at Verified Safe Haven: Model Colony.",
-                18.5308,
-                73.8475,
+                "Sunita arrived at Verified Safe Haven: Home.",
+                USER_LAT,
+                USER_LON,
                 ""
         );
 
@@ -420,17 +440,17 @@ public class DemoDataSeeder {
     private static void seedSosLogs(DatabaseReference rootRef, String uid) {
         SOSLog log1 = new SOSLog(
                 String.valueOf(System.currentTimeMillis() - 15 * 60 * 1000L),
-                "Routine Checkpoint Completed Safely",
-                18.5204,
-                73.8567,
+                "Routine Checkpoint Completed Safely (18°27'44.1\"N 73°51'53.9\"E)",
+                USER_LAT,
+                USER_LON,
                 ""
         );
 
         SOSLog log2 = new SOSLog(
                 String.valueOf(System.currentTimeMillis() - 24 * 3600 * 1000L),
                 "Quick SOS Triggered & Acknowledged by Circle",
-                18.5310,
-                73.8450,
+                18.46080,
+                73.86310,
                 ""
         );
 
@@ -444,30 +464,33 @@ public class DemoDataSeeder {
     private static void seedAdminDangerZones(DatabaseReference rootRef) {
         DatabaseReference dzRef = rootRef.child("DangerZones");
 
+        // Danger Zone 1: ~250m from user's coordinates (Pending Review)
         Dataholder dz1 = new Dataholder(
                 "ananya.sharma@woshield.org",
-                "Dark alleyway with broken streetlights near Shivaji Nagar underpass",
-                "Requires municipal street lighting and police patrol between 8 PM - 6 AM",
-                18.5312,
-                73.8510
+                "Unlit pedestrian alley near Bibwewadi-Dhankawadi link road",
+                "Broken streetlights creating dark blindspot between 7:30 PM - 6 AM. Commuters report safety vulnerability.",
+                18.46390,
+                73.86610
         );
         dz1.setStatus("pending");
 
+        // Danger Zone 2: ~600m from user's coordinates (Pending Review)
         Dataholder dz2 = new Dataholder(
                 "priya.sharma@woshield.org",
-                "Unpatrolled bus stop behind Hinjawadi Phase 1",
-                "Isolated spot with zero security after 9 PM. Recommend women safety booth.",
-                18.5910,
-                73.7380
+                "Isolated bus bay behind Dhankawadi service road",
+                "Deserted after 8:30 PM with zero security lighting. Recommend emergency police booth and high-mast lights.",
+                18.45820,
+                73.86290
         );
         dz2.setStatus("pending");
 
+        // Danger Zone 3: ~1.1km from user's coordinates (Approved Safe/Patrolled Zone)
         Dataholder dz3 = new Dataholder(
                 "citizen.alert@woshield.org",
-                "FC Road Back Gate construction junction",
-                "Patrolled and verified safe zone by local police unit.",
-                18.5240,
-                73.8410
+                "Katraj Chowk Transit Hub",
+                "Police checkpoint established with 24/7 high-intensity illumination and women safety help desk.",
+                18.45380,
+                73.86710
         );
         dz3.setStatus("approved");
 
