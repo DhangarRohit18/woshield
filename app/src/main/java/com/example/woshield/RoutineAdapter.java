@@ -23,6 +23,7 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RoutineV
         void onEdit(Routine routine);
         void onDelete(Routine routine);
         void onItemClick(Routine routine);
+        void onShowMap(Routine routine);
     }
 
     private final List<Routine> routineList;
@@ -83,6 +84,12 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RoutineV
         // Dim visual appearance slightly when disabled
         holder.itemView.setAlpha(routine.isEnabled() ? 1.0f : 0.65f);
 
+        if (holder.btnMapRoutine != null) {
+            holder.btnMapRoutine.setOnClickListener(v -> {
+                if (listener != null) listener.onShowMap(routine);
+            });
+        }
+
         holder.btnEditRoutine.setOnClickListener(v -> {
             if (listener != null) listener.onEdit(routine);
         });
@@ -106,7 +113,7 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RoutineV
         TextView tvRoutineCategory, tvRoutineTitle, tvRoutineStart, tvRoutineDestination;
         TextView tvRoutineTimes, tvRoutineDuration, tvRoutineDays, tvRoutineSafeStopsCount;
         SwitchMaterial switchRoutineEnabled;
-        ImageView btnEditRoutine, btnDeleteRoutine;
+        ImageView btnMapRoutine, btnEditRoutine, btnDeleteRoutine;
 
         public RoutineViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,6 +127,7 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.RoutineV
             tvRoutineDays = itemView.findViewById(R.id.tv_routine_days);
             tvRoutineSafeStopsCount = itemView.findViewById(R.id.tv_routine_safe_stops_count);
             switchRoutineEnabled = itemView.findViewById(R.id.switch_routine_enabled);
+            btnMapRoutine = itemView.findViewById(R.id.btn_map_routine);
             btnEditRoutine = itemView.findViewById(R.id.btn_edit_routine);
             btnDeleteRoutine = itemView.findViewById(R.id.btn_delete_routine);
         }

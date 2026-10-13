@@ -65,6 +65,12 @@ public class RoutineActivity extends AppCompatActivity implements RoutineAdapter
             startActivity(new Intent(this, SafeStopsActivity.class));
         });
 
+        findViewById(R.id.btn_view_map).setOnClickListener(v -> {
+            Intent intent = new Intent(this, MapsActivity.class);
+            intent.putExtra("extra_show_all_routines", true);
+            startActivity(intent);
+        });
+
         findViewById(R.id.btn_add_routine).setOnClickListener(v -> {
             startActivity(new Intent(this, RoutineFormActivity.class));
         });
@@ -164,12 +170,21 @@ public class RoutineActivity extends AppCompatActivity implements RoutineAdapter
     }
 
     @Override
+    public void onShowMap(Routine routine) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("extra_routine", routine);
+        startActivity(intent);
+    }
+
+    @Override
     public void onItemClick(Routine routine) {
-        String[] options = {"Start Safety Check-In Now", "Edit Routine Settings"};
+        String[] options = {"Show Route on Map", "Start Safety Check-In Now", "Edit Routine Settings"};
         new AlertDialog.Builder(this)
                 .setTitle(routine.getTitle())
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
+                        onShowMap(routine);
+                    } else if (which == 1) {
                         Intent checkInIntent = new Intent(this, SmartCheckInActivity.class);
                         checkInIntent.putExtra(SmartCheckInActivity.EXTRA_ROUTINE_ID, routine.getId());
                         checkInIntent.putExtra(SmartCheckInActivity.EXTRA_ROUTINE_TITLE, routine.getTitle());

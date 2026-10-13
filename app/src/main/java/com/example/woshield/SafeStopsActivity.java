@@ -1,5 +1,6 @@
 package com.example.woshield;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -72,6 +73,7 @@ public class SafeStopsActivity extends AppCompatActivity implements SafePlaceAda
 
         findViewById(R.id.btn_add_safe_place).setOnClickListener(v -> showSafePlaceDialog(null));
         findViewById(R.id.btn_empty_add_place).setOnClickListener(v -> showSafePlaceDialog(null));
+        findViewById(R.id.btn_view_map_safe_stops).setOnClickListener(v -> startActivity(new Intent(this, MapsActivity.class)));
 
         loadSafePlaces();
     }

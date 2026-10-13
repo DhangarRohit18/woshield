@@ -49,6 +49,21 @@
                 android:textSize="14sp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_map_safe_stops"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:minHeight="44dp"
+                android:text="Map View"
+                android:textColor="@color/deep_purple"
+                android:textSize="12sp"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/maps_icon"
+                app:iconTint="@color/deep_purple"
+                app:strokeColor="@color/deep_purple" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add_safe_place"
                 style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
