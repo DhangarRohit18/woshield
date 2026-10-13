@@ -21,6 +21,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
@@ -177,6 +180,21 @@
             android:exported="false" />
         <receiver
             android:name=".CheckInDeadlineReceiver"
+            android:exported="false" />
+
+        <service
+            android:name=".BuzzerTimerService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Emergency safety timer and alarm buzzer" />
+        </service>
+
+        <receiver
+            android:name=".BuzzerAlarmReceiver"
+            android:enabled="true"
             android:exported="false" />
 
         <activity android:name="com.facebook.FacebookActivity"

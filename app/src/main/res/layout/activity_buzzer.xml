@@ -7,33 +7,54 @@
     android:background="@color/warm_ivory"
     tools:context=".BuzzerActivity">
 
-    <!-- Header -->
+    <!-- Header with Back navigation and title -->
     <LinearLayout
         android:id="@+id/header_buzzer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="32dp"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="28dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Emergency Siren &amp; Buzzer"
-            android:textColor="@color/midnight_slate"
-            android:textSize="24sp"
-            android:fontFamily="sans-serif-black" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/soft_violet_surface"
+                android:contentDescription="Back"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/royal_violet" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Emergency Siren &amp; Buzzer"
+                android:textColor="@color/midnight_slate"
+                android:textSize="22sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Tap to schedule or immediately dispatch emergency SMS"
+            android:layout_marginStart="54dp"
+            android:layout_marginTop="2dp"
+            android:text="Real-time countdown timer &amp; background emergency dispatch"
             android:textColor="@color/secondary_slate"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
+    <!-- Animated Ripple Background -->
     <View
         android:id="@+id/pulseView"
         android:layout_width="220dp"
@@ -44,11 +65,11 @@
         app:layout_constraintStart_toStartOf="@+id/btn_sos"
         app:layout_constraintTop_toTopOf="@+id/btn_sos" />
 
+    <!-- SOS / Cancel Action Button -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btn_sos"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_marginBottom="60dp"
         android:gravity="center"
         android:text="SOS"
         android:textColor="@color/white"
@@ -57,50 +78,57 @@
         app:backgroundTint="@color/critical_red"
         app:cornerRadius="90dp"
         app:elevation="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/card_contacts_info"
+        app:layout_constraintBottom_toTopOf="@+id/tv_status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_buzzer" />
+        app:layout_constraintTop_toBottomOf="@+id/header_buzzer"
+        app:layout_constraintVertical_chainStyle="packed" />
 
+    <!-- Safety Status Text -->
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="READY TO PROTECT"
-        android:textColor="@color/critical_red"
-        android:textSize="16sp"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-black"
         android:letterSpacing="0.08"
+        android:text="READY TO PROTECT"
+        android:textColor="@color/critical_red"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_countdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_sos" />
 
+    <!-- Real-time Countdown Text -->
     <TextView
         android:id="@+id/tv_countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-black"
+        android:minHeight="48dp"
         android:text=""
         android:textColor="@color/critical_red"
-        android:textSize="44sp"
-        android:fontFamily="sans-serif-black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/card_contacts_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_status" />
 
+    <!-- Emergency Contacts Information Card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_contacts_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="24dp"
+        app:cardBackgroundColor="@color/surface_card"
         app:cardCornerRadius="16dp"
         app:cardElevation="1dp"
-        app:cardBackgroundColor="@color/surface_card"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:strokeColor="@color/subtle_border"
-        app:strokeWidth="1dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -128,22 +156,29 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.04"
                     android:text="EMERGENCY CONTACTS"
                     android:textColor="@color/secondary_slate"
-                    android:textSize="11sp"
-                    android:fontFamily="sans-serif-medium"
-                    android:letterSpacing="0.04" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/tv_emergency_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Active Safeguard Circle"
                     android:textColor="@color/midnight_slate"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textSize="16sp" />
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Manage contacts"
+                android:src="@drawable/ic_chevron_right"
+                app:tint="@color/secondary_slate" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
