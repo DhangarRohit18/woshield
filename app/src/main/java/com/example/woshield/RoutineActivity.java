@@ -38,7 +38,7 @@ public class RoutineActivity extends AppCompatActivity implements RoutineAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routine);
 
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null && !DemoDataSeeder.isDemoMode(this)) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;

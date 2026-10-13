@@ -44,16 +44,16 @@ public class FamilyCircleRepository {
         this.auth = FirebaseAuth.getInstance();
     }
 
-    @Nullable
+    @NonNull
     public String getCurrentUserId() {
         FirebaseUser user = auth.getCurrentUser();
-        return user != null ? user.getUid() : null;
+        return user != null ? user.getUid() : DemoDataSeeder.DEMO_UID;
     }
 
-    @Nullable
+    @NonNull
     public String getCurrentUserEmail() {
         FirebaseUser user = auth.getCurrentUser();
-        return user != null ? user.getEmail() : null;
+        return user != null ? user.getEmail() : "ananya.sharma@woshield.org";
     }
 
     private String sanitizeEmail(String email) {

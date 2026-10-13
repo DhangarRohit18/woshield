@@ -42,10 +42,10 @@ public class CheckInRepository {
         this.auth = FirebaseAuth.getInstance();
     }
 
-    @Nullable
+    @NonNull
     private String getCurrentUserId() {
         FirebaseUser user = auth.getCurrentUser();
-        return user != null ? user.getUid() : null;
+        return user != null ? user.getUid() : DemoDataSeeder.DEMO_UID;
     }
 
     private DatabaseReference getUserCheckInsRef(String uid) {

@@ -50,10 +50,10 @@ public class PrivacyRepository {
         this.auth = FirebaseAuth.getInstance();
     }
 
-    @Nullable
+    @NonNull
     public String getCurrentUserId() {
         FirebaseUser user = auth.getCurrentUser();
-        return user != null ? user.getUid() : null;
+        return user != null ? user.getUid() : DemoDataSeeder.DEMO_UID;
     }
 
     // =========================================================

@@ -68,6 +68,26 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister.setOnClickListener(v -> goToSignup(v));
         
         btnOfflineSos.setOnClickListener(v -> handleOfflineSos());
+
+        View btnSeedDemoData = findViewById(R.id.btnSeedDemoData);
+        if (btnSeedDemoData != null) {
+            btnSeedDemoData.setOnClickListener(v -> DemoDataSeeder.seedAll(this, true, null));
+        }
+
+        View cardNavUser = findViewById(R.id.cardNavUserDashboard);
+        if (cardNavUser != null) {
+            cardNavUser.setOnClickListener(v -> DemoDataSeeder.prepareAndLaunch(this, HomePage.class));
+        }
+
+        View cardNavFamily = findViewById(R.id.cardNavFamilyDashboard);
+        if (cardNavFamily != null) {
+            cardNavFamily.setOnClickListener(v -> DemoDataSeeder.prepareAndLaunch(this, FamilyDashboardActivity.class));
+        }
+
+        View cardNavAdmin = findViewById(R.id.cardNavAdminDashboard);
+        if (cardNavAdmin != null) {
+            cardNavAdmin.setOnClickListener(v -> DemoDataSeeder.prepareAndLaunch(this, AdminDashboard.class));
+        }
     }
 
     private void handleOfflineSos() {

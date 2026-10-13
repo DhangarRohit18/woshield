@@ -77,9 +77,11 @@ public class FamilyDashboardActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;
+            if (!DemoDataSeeder.isDemoMode(this)) {
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return;
+            }
         }
 
         setContentView(R.layout.activity_family_dashboard);

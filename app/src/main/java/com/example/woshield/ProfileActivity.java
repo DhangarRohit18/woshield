@@ -57,12 +57,14 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;
+            if (!DemoDataSeeder.isDemoMode(this)) {
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return;
+            }
         }
         
-        currentUserId = user.getUid();
+        currentUserId = (user != null) ? user.getUid() : DemoDataSeeder.DEMO_UID;
         mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(currentUserId);
         mStorage = FirebaseStorage.getInstance().getReference("ProfilePictures").child(currentUserId + ".jpg");
 

@@ -23,7 +23,7 @@ public class RoutineRepository {
 
     private String getCurrentUserId() {
         FirebaseUser user = mAuth.getCurrentUser();
-        return user != null ? user.getUid() : null;
+        return user != null ? user.getUid() : DemoDataSeeder.DEMO_UID;
     }
 
     public DatabaseReference getRoutinesRef() {

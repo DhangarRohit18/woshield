@@ -47,7 +47,7 @@ public class SafeStopsActivity extends AppCompatActivity implements SafePlaceAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_safe_stops);
 
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null && !DemoDataSeeder.isDemoMode(this)) {
             finish();
             return;
         }

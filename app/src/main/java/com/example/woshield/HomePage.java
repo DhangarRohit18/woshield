@@ -107,9 +107,11 @@ public class HomePage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;
+            if (!DemoDataSeeder.isDemoMode(this)) {
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return;
+            }
         }
 
         setContentView(R.layout.activity_home_page);
@@ -119,7 +121,8 @@ public class HomePage extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         initViews();
-        setupUserFirebaseListener(currentUser.getUid());
+        String activeUid = (currentUser != null) ? currentUser.getUid() : DemoDataSeeder.DEMO_UID;
+        setupUserFirebaseListener(activeUid);
         setupViews();
         setupSOSButton();
         setupServiceSwitch();
@@ -738,8 +741,7 @@ public class HomePage extends AppCompatActivity {
 
     private void logSOSWithLocation(double lat, double lon, String audioUrl) {
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) return;
-        String userId = user.getUid();
+        String userId = (user != null) ? user.getUid() : DemoDataSeeder.DEMO_UID;
         String timestamp = String.valueOf(System.currentTimeMillis());
 
         SOSLog log = new SOSLog(timestamp, audioUrl != null ? "Manual SOS with Audio Evidence" : "Quick SOS Triggered", lat, lon, audioUrl != null ? audioUrl : "");
